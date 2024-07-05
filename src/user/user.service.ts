@@ -18,9 +18,4 @@ export class UserService {
     }
     return await this.userModel.findById(id).exec();
   }
-
-  async create(user: User): Promise<User> {
-    const res = await this.userModel.create(user);
-    return res;
-  }
 }

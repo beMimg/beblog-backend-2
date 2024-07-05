@@ -14,8 +14,8 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<{ token: string }> {
-    const { username, email, password, role } = createUserDto;
+  async create(user: User): Promise<{ token: string }> {
+    const { username, email, password, role } = user;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 

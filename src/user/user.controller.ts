@@ -3,6 +3,7 @@ import {
   Get,
   NotFoundException,
   Param,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';

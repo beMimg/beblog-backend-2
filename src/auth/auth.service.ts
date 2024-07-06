@@ -23,7 +23,6 @@ export class AuthService {
       username,
       email,
       password: hashedPassword,
-      role: 'user',
     });
 
     const token = this.jwtService.sign({ id: newUser._id });

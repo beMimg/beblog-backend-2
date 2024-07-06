@@ -22,8 +22,15 @@ export class PostService {
     return await this.postModel.findById(id).exec();
   }
 
-  async create(createPostDto: CreatePostDto, user: User): Promise<any> {
-    const data = Object.assign(createPostDto, { author: user._id });
+  async create(
+    createPostDto: CreatePostDto,
+    user: User,
+    image?: string,
+  ): Promise<any> {
+    const data = Object.assign(createPostDto, {
+      author: user._id,
+      image: image,
+    });
 
     const res = await this.postModel.create(data);
 

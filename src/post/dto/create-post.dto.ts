@@ -25,7 +25,7 @@ export class CreatePostDto {
   @IsString()
   topic: string;
 
-  @IsOptional()
-  @IsString()
-  image?: string;
+  // // @IsOptional()
+  // image: Express.Multer.File;
+  // // image?: string;
 }

@@ -12,6 +12,9 @@ import { PostService } from './post.service';
 import { Post as PostSchema } from './schemas/post.schema';
 import { CreatePostDto } from './dto/create-post.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
+import { userRoles } from 'src/user/schemas/user.schema';
 
 @Controller('post')
 export class PostController {
@@ -34,7 +37,8 @@ export class PostController {
   }
 
   @Post()
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), RolesGuard)
+  @Roles(userRoles.ADMIN)
   async createPost(
     @Body() createPostDto: CreatePostDto,
     @Req() req,

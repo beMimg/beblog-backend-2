@@ -21,6 +21,7 @@ export class UserController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard())
   async getUser(@Param('id') id: string): Promise<User> {
     const user = this.userService.findById(id);
 

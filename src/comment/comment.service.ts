@@ -23,7 +23,7 @@ export class CommentService {
       throw new BadRequestException('Invalid ID format');
     }
 
-    return await this.commentModel.findById(id).exec();
+    return this.commentModel.findById(id).exec();
   }
 
   async create(

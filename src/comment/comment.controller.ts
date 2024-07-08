@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  NotFoundException,
   Param,
   Post,
   Req,
@@ -31,5 +32,10 @@ export class CommentController {
     @Param('post_id') post_id: string,
   ): Promise<Comment[]> {
     return this.commentService.findAllCommentsInPost(post_id);
+  }
+
+  @Get(':comment_id')
+  async getComment(@Param('comment_id') comment_id: string): Promise<Comment> {
+    return this.commentService.findById(comment_id);
   }
 }

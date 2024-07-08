@@ -1,4 +1,12 @@
-import { Body, Controller, Param, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { CommentService } from './comment.service';
 import { Comment } from './schemas/comment.schema';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -14,8 +22,14 @@ export class CommentController {
     @Body() createCommentDto: CreateCommentDto,
     @Req() req,
     @Param('post_id') post_id: string,
-  ): Promise<any> {
-    console.log(post_id);
+  ): Promise<Comment> {
     return this.commentService.create(createCommentDto, req.user, post_id);
+  }
+
+  @Get('/post/:post_id')
+  async getAllPostComments(
+    @Param('post_id') post_id: string,
+  ): Promise<Comment[]> {
+    return this.commentService.findAllCommentsInPost(post_id);
   }
 }

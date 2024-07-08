@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { PostModule } from './post/post.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
     PostModule,
     AuthModule,
     CloudinaryModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -58,7 +58,10 @@ export class CommentService {
     }
     const comment = await this.findById(comment_id);
 
-    console.log(comment.author, user._id);
+    if (!comment) {
+      throw new BadRequestException("This comments doens't exists");
+    }
+
     if (comment.author.toString() != user._id.toString()) {
       throw new ForbiddenException("You're not the author of this post.");
     }
@@ -76,13 +79,16 @@ export class CommentService {
     }
     const comment = await this.findById(comment_id);
 
-    console.log(comment.author, user._id);
-    if (comment.author.toString() != user._id.toString()) {
-      throw new ForbiddenException("You're not the author of this post.");
+    if (!comment) {
+      throw new BadRequestException("This comments doens't exists");
     }
 
-    comment.deleteOne();
+    if (comment.author.toString() != user._id.toString()) {
+      throw new ForbiddenException("You're not the author of this post");
+    }
 
-    return comment;
+    await comment.deleteOne();
+
+    return { deletedComment: comment };
   }
 }

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -48,5 +49,14 @@ export class CommentController {
     @Param('comment_id') comment_id: string,
   ): Promise<any> {
     return this.commentService.edit(createCommentDto, req.user, comment_id);
+  }
+
+  @Delete(':comment_id')
+  @UseGuards(AuthGuard())
+  async deleteComment(
+    @Req() req,
+    @Param('comment_id') comment_id: string,
+  ): Promise<any> {
+    return this.commentService.delete(req.user, comment_id);
   }
 }

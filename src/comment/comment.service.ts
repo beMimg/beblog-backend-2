@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -42,5 +46,43 @@ export class CommentService {
     const res = await this.commentModel.create(comment);
 
     return res;
+  }
+
+  async edit(
+    createCommentDto: CreateCommentDto,
+    user: User,
+    comment_id: string,
+  ): Promise<any> {
+    if (!mongoose.Types.ObjectId.isValid(comment_id)) {
+      throw new BadRequestException('Invalid ID format');
+    }
+    const comment = await this.findById(comment_id);
+
+    console.log(comment.author, user._id);
+    if (comment.author.toString() != user._id.toString()) {
+      throw new ForbiddenException("You're not the author of this post.");
+    }
+
+    comment.text = createCommentDto.text;
+
+    await comment.save();
+
+    return comment;
+  }
+
+  async delete(user: User, comment_id: string): Promise<any> {
+    if (!mongoose.Types.ObjectId.isValid(comment_id)) {
+      throw new BadRequestException('Invalid ID format');
+    }
+    const comment = await this.findById(comment_id);
+
+    console.log(comment.author, user._id);
+    if (comment.author.toString() != user._id.toString()) {
+      throw new ForbiddenException("You're not the author of this post.");
+    }
+
+    comment.deleteOne();
+
+    return comment;
   }
 }

@@ -5,6 +5,7 @@ import {
   NotFoundException,
   Param,
   Post,
+  Put,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -37,5 +38,15 @@ export class CommentController {
   @Get(':comment_id')
   async getComment(@Param('comment_id') comment_id: string): Promise<Comment> {
     return this.commentService.findById(comment_id);
+  }
+
+  @Put(':comment_id')
+  @UseGuards(AuthGuard())
+  async editComment(
+    @Body() createCommentDto: CreateCommentDto,
+    @Req() req,
+    @Param('comment_id') comment_id: string,
+  ): Promise<any> {
+    return this.commentService.edit(createCommentDto, req.user, comment_id);
   }
 }

@@ -6,6 +6,7 @@ import {
   NotFoundException,
   Param,
   Post,
+  Query,
   Req,
   UploadedFile,
   UseGuards,
@@ -30,8 +31,11 @@ export class PostController {
   ) {}
 
   @Get()
-  async getAllPosts(): Promise<PostSchema[]> {
-    return this.postService.findAll();
+  async getAllPosts(
+    @Query('limit') limit: number = 3,
+    @Query('skip') skip: number = 0,
+  ): Promise<PostSchema[]> {
+    return this.postService.findAll(limit, skip);
   }
 
   @Get(':id')

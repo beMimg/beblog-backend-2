@@ -9,8 +9,8 @@ import { User } from 'src/user/schemas/user.schema';
 export class PostService {
   constructor(@InjectModel(Post.name) private postModel: Model<Post>) {}
 
-  async findAll(): Promise<Post[]> {
-    const posts = await this.postModel.find();
+  async findAll(limit: number, skip: number): Promise<Post[]> {
+    const posts = await this.postModel.find().limit(limit).skip(skip).exec();
     return posts;
   }
 

@@ -10,7 +10,12 @@ export class PostService {
   constructor(@InjectModel(Post.name) private postModel: Model<Post>) {}
 
   async findAll(limit: number, skip: number): Promise<Post[]> {
-    const posts = await this.postModel.find().limit(limit).skip(skip).exec();
+    const posts = await this.postModel
+      .find()
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .skip(skip)
+      .exec();
     return posts;
   }
 

@@ -17,7 +17,7 @@ export class CreatePostDto {
 
   @IsNotEmpty()
   @IsString()
-  @MaxLength(30)
+  @MaxLength(500)
   description: string;
 
   @IsNotEmpty()

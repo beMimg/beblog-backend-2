@@ -22,6 +22,10 @@ import { userRoles } from 'src/user/schemas/user.schema';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { MulterError } from 'multer';
+import {
+  ACCEPTED_IMAGE_SIZE,
+  ACCEPTED_IMAGE_TYPES,
+} from './constants/contants';
 
 @Controller('post')
 export class PostController {
@@ -55,7 +59,14 @@ export class PostController {
   @UseInterceptors(
     FileInterceptor('file', {
       limits: {
-        fileSize: 1024 * 1024 * 2, // 2mb limit
+        fileSize: ACCEPTED_IMAGE_SIZE, // 2mb limit
+      },
+      fileFilter(req, file, callback) {
+        if (ACCEPTED_IMAGE_TYPES.includes(file.mimetype)) {
+          callback(null, true);
+        } else {
+          callback(new Error('Invalid file type'), false);
+        }
       },
     }),
   )

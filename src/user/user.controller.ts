@@ -20,6 +20,12 @@ export class UserController {
     return this.userService.findAll();
   }
 
+  @Get('self')
+  @UseGuards(AuthGuard())
+  async getSelf(@Req() req): Promise<User> {
+    return this.userService.findById(req.user._id);
+  }
+
   @Get(':id')
   @UseGuards(AuthGuard())
   async getUser(@Param('id') id: string): Promise<User> {

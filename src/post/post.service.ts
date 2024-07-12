@@ -42,5 +42,3 @@ export class PostService {
     return res;
   }
 }
-
-//  still only for admins todo

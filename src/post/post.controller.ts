@@ -21,7 +21,6 @@ import { Roles } from 'src/auth/roles.decorator';
 import { userRoles } from 'src/user/schemas/user.schema';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
-import { MulterError } from 'multer';
 import {
   ACCEPTED_IMAGE_SIZE,
   ACCEPTED_IMAGE_TYPES,

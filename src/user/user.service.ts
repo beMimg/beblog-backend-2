@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
 import mongoose, { Model } from 'mongoose';
+import { EditUserDto } from './dto/edit-user.dto';
 
 @Injectable()
 export class UserService {
@@ -16,5 +17,22 @@ export class UserService {
       throw new BadRequestException('Invalid ID format');
     }
     return await this.userModel.findById(id, '-password').exec();
+  }
+
+  async edit(
+    editUserDto: EditUserDto,
+    id: string,
+    imageUrl?: string,
+  ): Promise<any> {
+    return await this.userModel
+      .findByIdAndUpdate(
+        id,
+        {
+          bio: editUserDto.bio,
+          imageUrl: imageUrl,
+        },
+        { new: true }, // returns the new document
+      )
+      .exec();
   }
 }

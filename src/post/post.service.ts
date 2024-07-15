@@ -24,7 +24,10 @@ export class PostService {
       throw new BadRequestException('Invalid ID format');
     }
 
-    return await this.postModel.findById(id).exec();
+    return await this.postModel
+      .findById(id)
+      .populate({ path: 'author', select: 'imageUrl username' })
+      .exec();
   }
 
   async create(

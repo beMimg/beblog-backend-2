@@ -25,7 +25,11 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    const token = this.jwtService.sign({ id: newUser._id });
+    const token = this.jwtService.sign({
+      id: newUser._id,
+      role: newUser.role,
+      username: newUser.username,
+    });
 
     return { token };
   }
@@ -48,6 +52,7 @@ export class AuthService {
     const token = this.jwtService.sign({
       id: foundUser._id,
       role: foundUser.role,
+      username: foundUser.username,
     });
 
     return { token };

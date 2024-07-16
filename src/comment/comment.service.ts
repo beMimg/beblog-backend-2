@@ -19,7 +19,11 @@ export class CommentService {
     if (!mongoose.Types.ObjectId.isValid(post_id)) {
       throw new BadRequestException('Invalid ID format');
     }
-    return await this.commentModel.find({ post: post_id });
+    return await this.commentModel
+      .find({ post: post_id })
+      .populate({ path: 'author', select: 'imageUrl username' })
+      .sort({ createdAt: -1 })
+      .exec();
   }
 
   async findById(id: string): Promise<Comment> {

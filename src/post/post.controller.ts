@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -88,5 +89,11 @@ export class PostController {
   @UseGuards(AuthGuard())
   async likePost(@Req() req, @Param('id') id: string): Promise<any> {
     return this.postService.like(req.user._id, id);
+  }
+
+  @Delete('/:id/like')
+  @UseGuards(AuthGuard())
+  async deslikePost(@Req() req, @Param('id') id: string): Promise<any> {
+    return this.postService.deslike(req.user._id, id);
   }
 }

@@ -63,4 +63,22 @@ export class PostService {
 
     return updatedPost;
   }
+
+  async deslike(userId: any, postId: string): Promise<Post> {
+    if (!mongoose.Types.ObjectId.isValid(postId)) {
+      throw new BadRequestException('Invalid ID format');
+    }
+
+    const updatedPost = await this.postModel.findByIdAndUpdate(
+      postId,
+      { $pull: { likes: userId } }, // Using $addToSet to avoid duplicate likes
+      { new: true }, // Return the updated document
+    );
+
+    if (!updatedPost) {
+      throw new BadRequestException('Post not found');
+    }
+
+    return updatedPost;
+  }
 }

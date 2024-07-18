@@ -15,6 +15,7 @@ export class PostService {
       .sort({ createdAt: -1 })
       .limit(limit)
       .skip(skip)
+      .populate({ path: 'author', select: 'imageUrl username' })
       .exec();
     return posts;
   }
@@ -43,5 +44,23 @@ export class PostService {
     const res = await this.postModel.create(data);
 
     return res;
+  }
+
+  async like(userId: any, postId: string): Promise<Post> {
+    if (!mongoose.Types.ObjectId.isValid(postId)) {
+      throw new BadRequestException('Invalid ID format');
+    }
+
+    const updatedPost = await this.postModel.findByIdAndUpdate(
+      postId,
+      { $addToSet: { likes: userId } }, // Using $addToSet to avoid duplicate likes
+      { new: true }, // Return the updated document
+    );
+
+    if (!updatedPost) {
+      throw new BadRequestException('Post not found');
+    }
+
+    return updatedPost;
   }
 }

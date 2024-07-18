@@ -6,6 +6,7 @@ import {
   NotFoundException,
   Param,
   Post,
+  Put,
   Query,
   Req,
   UploadedFile,
@@ -81,5 +82,11 @@ export class PostController {
       req.user,
       uploadImageToCloud?.url,
     );
+  }
+
+  @Post('/:id/like')
+  @UseGuards(AuthGuard())
+  async likePost(@Req() req, @Param('id') id: string): Promise<any> {
+    return this.postService.like(req.user._id, id);
   }
 }
